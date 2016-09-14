@@ -102,8 +102,8 @@
     <module>projects/solr</module>
     <module>projects/file-transfer-receiver</module>
     <module>projects/system-build-test</module>
-    <module>modules/sharepoint/amp</module>
-    <module>modules/wcmquickstart</module>
+    <!--<module>modules/sharepoint/amp</module>-->
+    <!--<module>modules/wcmquickstart</module>-->
     <module>projects/web-editor-samples/customer-site</module>
     <module>projects/mmt</module>
     <module>projects/share-po</module>
