@@ -29,6 +29,14 @@
 
       <type name="sys:base">
          <title>Base</title>
+         <properties>
+            <property name="sys:timestamp">
+               <title>Time Stamp</title>
+               <type>d:datetime</type>
+               <protected>true</protected>
+               <mandatory enforced="true">true</mandatory>
+            </property>
+         </properties>
          <mandatory-aspects>
             <aspect>sys:referenceable</aspect>
             <aspect>sys:localized</aspect>

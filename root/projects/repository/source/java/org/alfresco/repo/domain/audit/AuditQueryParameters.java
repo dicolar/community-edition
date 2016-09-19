@@ -18,7 +18,10 @@
  */
 package org.alfresco.repo.domain.audit;
 
+import org.alfresco.util.Pair;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * Query parameters for <b>alf_audit_entry</b> table.
@@ -35,8 +38,9 @@ public class AuditQueryParameters
     private Long auditToId;
     private Long auditFromTime;
     private Long auditToTime;
-    private Long searchKeyId;
-    private Long searchValueId;
+    
+    //TODO
+    private List<Pair<Long, Long>> auditKeyValueIds;
     
     public AuditQueryParameters()
     {
@@ -54,8 +58,7 @@ public class AuditQueryParameters
           .append(", auditToId=").append(auditToId == null ? null : auditToId)
           .append(", auditFromTime=").append(auditFromTime == null ? null : new Date(auditFromTime))
           .append(", auditToTime=").append(auditToTime == null ? null : new Date(auditToTime))
-          .append(", searchKeyId=").append(searchKeyId)
-          .append(", searchValueId=").append(searchValueId)
+          .append(", auditKeyValueIds=").append(auditKeyValueIds)
           .append("]");
         return sb.toString();
     }
@@ -134,32 +137,21 @@ public class AuditQueryParameters
     {
         this.auditToTime = to;
     }
-
-    public Long getSearchKeyId()
-    {
-        return searchKeyId;
-    }
-
-    public void setSearchKeyId(Long searchKeyId)
-    {
-        this.searchKeyId = searchKeyId;
-    }
-
-    public Long getSearchValueId()
-    {
-        return searchValueId;
-    }
-
-    public void setSearchValueId(Long searchValueId)
-    {
-        this.searchValueId = searchValueId;
+    
+    //TODO
+    public List<Pair<Long, Long>> getAuditKeyValueIds() {
+        return auditKeyValueIds;
     }
     
+    public void setAuditKeyValueIds(List<Pair<Long, Long>> auditKeyValueIds) {
+        this.auditKeyValueIds = auditKeyValueIds;
+    }
+
     /**
      * @return              Returns <tt>true</tt> if this object includes a key- or value-based search
      */
     public boolean isKeyOrValueSearch()
     {
-        return searchKeyId != null || searchValueId != null;
+        return this.auditKeyValueIds.size() > 0;
     }
 }

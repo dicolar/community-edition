@@ -18,12 +18,12 @@
  */
 package org.alfresco.service.cmr.audit;
 
+import org.alfresco.util.Pair;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.alfresco.util.Pair;
 
 /**
  * Parameters controlling audit queries.
@@ -208,10 +208,10 @@ public class AuditQueryParameters
         {
             throw new IllegalArgumentException("A search key must have a 'searchKey' and/or a 'searchValue'.");
         }
-        if (searchKeyValues.size() > 0)
-        {
-            throw new UnsupportedOperationException("Only one search key-value pair is currently supported.");
-        }
+//        if (searchKeyValues.size() > 0)
+//        {
+//            throw new UnsupportedOperationException("Only one search key-value pair is currently supported.");
+//        }
             
         this.searchKeyValues.add(new Pair<String, Serializable>(searchKey, searchValue));
     }

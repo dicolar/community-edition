@@ -18,13 +18,6 @@
  */
 package org.alfresco.repo.node;
 
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.alfresco.model.ContentModel;
 import org.alfresco.repo.node.NodeServicePolicies.BeforeAddAspectPolicy;
 import org.alfresco.repo.node.NodeServicePolicies.BeforeArchiveNodePolicy;
@@ -66,6 +59,7 @@ import org.alfresco.service.cmr.repository.InvalidNodeRefException;
 import org.alfresco.service.cmr.repository.NodeRef;
 import org.alfresco.service.cmr.repository.NodeService;
 import org.alfresco.service.cmr.repository.StoreRef;
+import org.alfresco.service.namespace.NamespaceService;
 import org.alfresco.service.namespace.QName;
 import org.alfresco.service.namespace.QNamePattern;
 import org.alfresco.service.namespace.RegexQNamePattern;
@@ -74,6 +68,13 @@ import org.alfresco.util.GUID;
 import org.alfresco.util.PropertyMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Provides common functionality for
@@ -92,6 +93,8 @@ public abstract class AbstractNodeServiceImpl implements NodeService
      * The logger
      */
     private static Log logger = LogFactory.getLog(AbstractNodeServiceImpl.class);
+    
+    public static final QName PROP_TIMESTAMP = QName.createQName(NamespaceService.SYSTEM_MODEL_1_0_URI, "timestamp");
     
     /** a uuid identifying this unique instance */
     private String uuid;

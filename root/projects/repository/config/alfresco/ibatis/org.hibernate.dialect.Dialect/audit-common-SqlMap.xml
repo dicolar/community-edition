@@ -165,7 +165,6 @@
        </where>
     </delete>
     
-    
     <sql id="select_AuditEntriesWhereSnippet">
         <where>
             <if test="auditAppNameId != null">
@@ -174,7 +173,7 @@
             <if test="auditUserId != null">
                 and entry.audit_user_id = #{auditUserId}
             </if>
-           <if test="auditFromId != null">
+            <if test="auditFromId != null">
                 <![CDATA[and entry.id >= #{auditFromId}]]>
             </if>
             <if test="auditToId != null">
@@ -186,11 +185,13 @@
             <if test="auditToTime != null">
                 <![CDATA[and entry.audit_time < #{auditToTime}]]>
             </if>
-            <if test="searchKeyId != null">
-                and sp_pl.key_prop_id = #{searchKeyId}
-            </if>
-            <if test="searchValueId != null">
-                and sp_pl.value_prop_id = #{searchValueId}
+            <if test="auditKeyValueIds != null">
+                <if test="auditKeyValueIds.size() > 0">
+                    and (sp_pl.key_prop_id, sp_pl.value_prop_id) in
+                    <foreach item="item" collection="auditKeyValueIds" open="((" separator="),(" close="))">
+                        #{item.first}, #{item.second}
+                    </foreach>
+                </if>
             </if>
         </where>
     </sql>

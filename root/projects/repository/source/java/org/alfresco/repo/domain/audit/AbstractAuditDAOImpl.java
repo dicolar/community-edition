@@ -466,8 +466,8 @@ public abstract class AbstractAuditDAOImpl implements AuditDAO
                 parameters.getFromTime(),
                 parameters.getToTime(),
                 maxResults,
-                searchKey,
-                searchValue);
+                //TODO
+                parameters.getSearchKeyValues());
     }
     
     protected abstract void findAuditEntries(
@@ -477,5 +477,5 @@ public abstract class AbstractAuditDAOImpl implements AuditDAO
             Long fromId, Long toId,
             Long fromTime, Long toTime,
             int maxResults,
-            String searchKey, Serializable searchValue);
+            List<Pair<String, Serializable>> kvs);
 }

@@ -18,19 +18,20 @@
  */
 package org.alfresco.service.cmr.repository;
 
+import org.alfresco.api.AlfrescoPublicApi;
+import org.alfresco.service.Auditable;
+import org.alfresco.service.cmr.dictionary.InvalidAspectException;
+import org.alfresco.service.cmr.dictionary.InvalidTypeException;
+import org.alfresco.service.namespace.NamespaceService;
+import org.alfresco.service.namespace.QName;
+import org.alfresco.service.namespace.QNamePattern;
+import org.alfresco.service.namespace.RegexQNamePattern;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.alfresco.api.AlfrescoPublicApi;
-import org.alfresco.service.Auditable;
-import org.alfresco.service.cmr.dictionary.InvalidAspectException;
-import org.alfresco.service.cmr.dictionary.InvalidTypeException;
-import org.alfresco.service.namespace.QName;
-import org.alfresco.service.namespace.QNamePattern;
-import org.alfresco.service.namespace.RegexQNamePattern;
 
 /**
  * Interface for public and internal <b>node</b> and <b>store</b> operations.
@@ -58,6 +59,7 @@ import org.alfresco.service.namespace.RegexQNamePattern;
 @AlfrescoPublicApi
 public interface NodeService
 {
+    
     /**
      * Gets a list of all available node store references
      * 
