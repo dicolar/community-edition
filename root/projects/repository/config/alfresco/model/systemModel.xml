@@ -32,7 +32,7 @@
          <properties>
             <property name="sys:timestamp">
                <title>Time Stamp</title>
-               <type>d:datetime</type>
+               <type>d:long</type>
                <protected>true</protected>
                <mandatory enforced="true">true</mandatory>
             </property>

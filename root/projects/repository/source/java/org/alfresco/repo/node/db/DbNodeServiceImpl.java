@@ -323,10 +323,6 @@ public class DbNodeServiceImpl extends AbstractNodeServiceImpl {
 		// get an ID for the node
 		String newUuid = generateGuid(properties);
 		
-		//TODO add the creation timestamp
-		properties.put(PROP_TIMESTAMP, new Date());
-		//END
-		
 		// Invoke policy behaviour
 		invokeBeforeCreateNode(parentRef, assocTypeQName, assocQName, nodeTypeQName);
 		
@@ -1360,36 +1356,8 @@ public class DbNodeServiceImpl extends AbstractNodeServiceImpl {
 		final Long nodeId = nodePair.getFirst();
 		Map<QName, Serializable> nodeProperties = nodeDAO.getNodeProperties(nodeId);
 		
-		//TODO
-		if (!nodeProperties.containsKey(PROP_TIMESTAMP) || nodeProperties.get(PROP_TIMESTAMP) == null) {
-			addTimestamp(nodePair.getFirst(), nodeProperties);
-		}
-		// done
 		return nodeProperties;
 	}
-	
-	//TODO add timestamps 2 those node inited!
-	private void addTimestamp(final long nodeId, final Map<QName, Serializable> nodeProperties) {
-		transactionService.getRetryingTransactionHelper().doInTransaction(new RetryingTransactionCallback<Object>() {
-			@Override
-			public Object execute() throws Throwable {
-				final Date timestamp = new Date();
-				
-				nodeProperties.put(PROP_TIMESTAMP, timestamp);
-				
-				AuthenticationUtil.runAs(new AuthenticationUtil.RunAsWork<Object>() {
-					@Override
-					public Object doWork() throws Exception {
-						nodeDAO.addNodeProperty(nodeId, PROP_TIMESTAMP, timestamp);
-						return null;
-					}
-				}, AuthenticationUtil.getAdminUserName());
-				
-				return null;
-			}
-		}, false, true);
-	}
-	//END
 	
 	public Long getNodeAclId(NodeRef nodeRef) throws InvalidNodeRefException {
 		Pair<Long, NodeRef> nodePair = getNodePairNotNull(nodeRef);
@@ -1915,9 +1883,6 @@ public class DbNodeServiceImpl extends AbstractNodeServiceImpl {
 		getChildAssocsByPropertyValueBannedProps.add(ContentModel.PROP_NODE_UUID);
 		getChildAssocsByPropertyValueBannedProps.add(ContentModel.PROP_NAME);
 		getChildAssocsByPropertyValueBannedProps.add(ContentModel.PROP_MODIFIED);
-		//TODO
-		getChildAssocsByPropertyValueBannedProps.add(PROP_TIMESTAMP);
-		//END
 		getChildAssocsByPropertyValueBannedProps.add(ContentModel.PROP_MODIFIER);
 		getChildAssocsByPropertyValueBannedProps.add(ContentModel.PROP_CREATED);
 		getChildAssocsByPropertyValueBannedProps.add(ContentModel.PROP_CREATOR);
@@ -2755,12 +2720,6 @@ public class DbNodeServiceImpl extends AbstractNodeServiceImpl {
 				public Void execute() throws Throwable {
 					// Get the details of the parent, and check it's valid to update
 					Pair<Long, NodeRef> parentNodePair = nodeDAO.getNodePair(parentNodeId);
-					
-					//TODO add the timestamp! the optimize lock!
-					if (parentNodePair != null) {
-						nodeDAO.addNodeProperty(parentNodeId, PROP_TIMESTAMP, new Date());
-					}
-					//END
 					
 					if (parentNodePair == null) {
 						return null;                            // Parent has gone away

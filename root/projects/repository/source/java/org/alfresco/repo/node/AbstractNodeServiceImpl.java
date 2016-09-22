@@ -94,8 +94,6 @@ public abstract class AbstractNodeServiceImpl implements NodeService
      */
     private static Log logger = LogFactory.getLog(AbstractNodeServiceImpl.class);
     
-    public static final QName PROP_TIMESTAMP = QName.createQName(NamespaceService.SYSTEM_MODEL_1_0_URI, "timestamp");
-    
     /** a uuid identifying this unique instance */
     private String uuid;
     /** controls policy delegates */

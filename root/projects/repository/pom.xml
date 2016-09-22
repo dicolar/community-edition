@@ -1076,7 +1076,7 @@
         						<pluginExecution>
         							<pluginExecutionFilter>
         								<groupId>org.jibx</groupId>
-        								<artifactId>
+        								<artifactId> 
         									maven-jibx-plugin
         								</artifactId>
         								<versionRange>
