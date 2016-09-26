@@ -9,7 +9,7 @@
 		<view:acl view:inherit="false">
 			<view:ace view:access="ALLOWED">
 				<view:authority>GROUP_EVERYONE</view:authority>
-				<view:permission>Consumer</view:permission>
+				<view:permission>Read</view:permission>
 			</view:ace>
 		</view:acl>
 		<app:uifacets/>
@@ -22,7 +22,7 @@
             <view:acl view:inherit="false">
                <view:ace view:access="ALLOWED">
                   <view:authority>GROUP_EVERYONE</view:authority>
-                  <view:permission>Consumer</view:permission>
+                  <view:permission>Read</view:permission>
                </view:ace>
             </view:acl>
             <app:uifacets/>
@@ -71,7 +71,7 @@
                   <view:acl>
                      <view:ace view:access="ALLOWED">
                         <view:authority>${alfresco_user_store.guestusername}</view:authority>
-                        <view:permission>Consumer</view:permission>
+                        <view:permission>Read</view:permission>
                      </view:ace>
                   </view:acl>
                   <app:uifacets/>
@@ -85,7 +85,7 @@
                   <view:acl view:inherit="false">
                      <view:ace view:access="ALLOWED">
                         <view:authority>GROUP_EVERYONE</view:authority>
-                        <view:permission>Contributor</view:permission>
+                        <view:permission>Write</view:permission>
                      </view:ace>
                   </view:acl>
                   <app:uifacets/>
@@ -114,11 +114,11 @@
             <view:acl view:inherit="false">
                <view:ace view:access="ALLOWED">
                   <view:authority>${alfresco_user_store.guestusername}</view:authority>
-                  <view:permission>Consumer</view:permission>
+                  <view:permission>Read</view:permission>
                </view:ace>
                <view:ace view:access="ALLOWED">
                   <view:authority>GROUP_EVERYONE</view:authority>
-                  <view:permission>Consumer</view:permission>
+                  <view:permission>Read</view:permission>
                </view:ace>
             </view:acl>
             <app:uifacets/>
@@ -138,7 +138,7 @@
            <view:acl view:inherit="false">
               <view:ace view:access="ALLOWED">
                 <view:authority>GROUP_EVERYONE</view:authority>
-                <view:permission>Contributor</view:permission>
+                <view:permission>Write</view:permission>
               </view:ace>
             </view:acl>
             <app:uifacets/>

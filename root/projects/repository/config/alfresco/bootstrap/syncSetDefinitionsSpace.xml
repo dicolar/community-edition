@@ -18,11 +18,7 @@
       <view:acl view:inherit="false">
           <view:ace view:access="ALLOWED">
               <view:authority>GROUP_EVERYONE</view:authority>
-              <view:permission>Read</view:permission>
-          </view:ace>
-          <view:ace view:access="ALLOWED">
-              <view:authority>GROUP_EVERYONE</view:authority>
-              <view:permission>AddChildren</view:permission>
+              <view:permission>Write</view:permission>
           </view:ace>
           <view:ace view:access="ALLOWED">
               <view:authority>ROLE_OWNER</view:authority>
