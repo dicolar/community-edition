@@ -198,8 +198,15 @@ public interface AuditDAO
      * @param parameters        the parameters for the query (may not be <tt>null</tt>)
      * @param maxResults        the maximum number of results to retrieve
      */
-    void findAuditEntries(
+    int findAuditEntries(
+        AuditQueryCallback callback,
+        org.alfresco.service.cmr.audit.AuditQueryParameters parameters,
+        int offset,
+        int maxResults);
+    
+    int findAuditEntries(
             AuditQueryCallback callback,
             org.alfresco.service.cmr.audit.AuditQueryParameters parameters,
             int maxResults);
+    
 }

@@ -18,12 +18,12 @@
  */
 package org.alfresco.repo.audit;
 
+import org.alfresco.service.cmr.audit.AuditQueryParameters;
+import org.alfresco.service.cmr.audit.AuditService;
+
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
-import org.alfresco.service.cmr.audit.AuditQueryParameters;
-import org.alfresco.service.cmr.audit.AuditService;
 
 /**
  * The implementation of the AuditService for application auditing.
@@ -147,8 +147,13 @@ public class AuditServiceImpl implements AuditService
      * {@inheritDoc}
      * @since 3.3
      */
-    public void auditQuery(AuditQueryCallback callback, AuditQueryParameters parameters, int maxResults)
+    public int auditQuery(AuditQueryCallback callback, AuditQueryParameters parameters, int offset, int maxResults)
     {
-        auditComponent.auditQuery(callback, parameters, maxResults);
+        return auditComponent.auditQuery(callback, parameters, offset, maxResults);
+    }
+    
+    public int auditQuery(AuditQueryCallback callback, AuditQueryParameters parameters, int maxResults)
+    {
+        return auditComponent.auditQuery(callback, parameters, 0, maxResults);
     }
 }

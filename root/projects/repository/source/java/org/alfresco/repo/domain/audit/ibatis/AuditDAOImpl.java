@@ -64,6 +64,7 @@ public class AuditDAOImpl extends AbstractAuditDAOImpl {
 	private static final String SELECT_ENTRIES_SIMPLE = "alfresco.audit.select_AuditEntriesSimple";
 	private static final String SELECT_ENTRIES_WITH_VALUES = "alfresco.audit.select_AuditEntriesWithValues";
 	private static final String SELECT_ENTRIES_WITHOUT_VALUES = "alfresco.audit.select_AuditEntriesWithoutValues";
+	private static final String SELECT_ENTRIES_COUNT = "alfresco.audit.select_AuditEntriesCount";
 	
 	private SqlSessionTemplate template;
 	
@@ -185,22 +186,26 @@ public class AuditDAOImpl extends AbstractAuditDAOImpl {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void findAuditEntries(
+	protected int findAuditEntries(
 			final AuditQueryRowHandler rowHandler,
 			boolean forward,
 			String appName, String user,
 			Long fromId, Long toId,
 			Long fromTime, Long toTime,
+			//TODO
+			int offset,
 			int maxResults,
 			//TODO
 			List<Pair<String, Serializable>> kvs) {
+		int count = 0;
+		
 		AuditQueryParameters params = new AuditQueryParameters();
 		if (appName != null) {
 			// Look up the application's ID (this is unique)
 			Pair<Long, Serializable> appNamePair = propertyValueDAO.getPropertyValue(appName);
 			if (appNamePair == null) {
 				// No such value
-				return;
+				return count;
 			}
 			params.setAuditAppNameId(appNamePair.getFirst());
 		}
@@ -209,7 +214,7 @@ public class AuditDAOImpl extends AbstractAuditDAOImpl {
 			Pair<Long, Serializable> userPair = propertyValueDAO.getPropertyValue(user);
 			if (userPair == null) {
 				// No such value
-				return;
+				return count;
 			}
 			params.setAuditUserId(userPair.getFirst());
 		}
@@ -230,14 +235,17 @@ public class AuditDAOImpl extends AbstractAuditDAOImpl {
 		}
 		
 		//check if kvIds is blank but the kvs is not blank? just return
-		if (kvs.size() > 0 && kvIds.size() == 0) return;
+		if (kvs.size() > 0 && kvIds.size() == 0) return count;
 		
 		params.setAuditKeyValueIds(kvIds);
+		
+		//TODO add count
+		count = template.selectOne(SELECT_ENTRIES_COUNT, params);
 		//TODO END
 		
 		params.setForward(forward);
 		
-		if (maxResults > 0) {
+		if (maxResults > 0 && offset > 0) {
 			// Query without getting the values.  We gather all the results and batch-fetch the audited
 			// values afterwards.
 			final Map<Long, AuditQueryResult> resultsByValueId = new HashMap<Long, AuditQueryResult>(173);
@@ -253,7 +261,7 @@ public class AuditDAOImpl extends AbstractAuditDAOImpl {
 				}
 			};
 			
-			List<AuditQueryResult> rows = template.selectList(SELECT_ENTRIES_WITHOUT_VALUES, params, new RowBounds(0, maxResults));
+			List<AuditQueryResult> rows = template.selectList(SELECT_ENTRIES_WITHOUT_VALUES, params, new RowBounds(offset, maxResults));
 			for (AuditQueryResult row : rows) {
 				resultsByValueId.put(row.getAuditValuesId(), row);
 				if (resultsByValueId.size() >= 100) {
@@ -270,6 +278,7 @@ public class AuditDAOImpl extends AbstractAuditDAOImpl {
 				List<Long> valueIds = new ArrayList<Long>(resultsByValueId.keySet());
 				propertyValueDAO.getPropertiesByIds(valueIds, propertyFinderCallback);
 			}
+			
 			// Now pass the filled-out results to the row handler (order-preserved)
 			for (AuditQueryResult row : rows) {
 				rowHandler.processResult(row);
@@ -293,6 +302,8 @@ public class AuditDAOImpl extends AbstractAuditDAOImpl {
 					: SELECT_ENTRIES_WITHOUT_VALUES, params, rollupResultHandler);
 			rollupResultHandler.processLastResults();
 		}
+		
+		return count;
 	}
 }
 

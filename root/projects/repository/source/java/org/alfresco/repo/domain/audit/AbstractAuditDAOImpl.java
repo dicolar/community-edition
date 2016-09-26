@@ -18,6 +18,22 @@
  */
 package org.alfresco.repo.domain.audit;
 
+import org.alfresco.error.AlfrescoRuntimeException;
+import org.alfresco.repo.content.MimetypeMap;
+import org.alfresco.repo.domain.contentdata.ContentDataDAO;
+import org.alfresco.repo.domain.propval.PropertyIdSearchRow;
+import org.alfresco.repo.domain.propval.PropertyValueDAO;
+import org.alfresco.service.cmr.audit.AuditService;
+import org.alfresco.service.cmr.audit.AuditService.AuditQueryCallback;
+import org.alfresco.service.cmr.repository.ContentData;
+import org.alfresco.service.cmr.repository.ContentService;
+import org.alfresco.service.cmr.repository.ContentWriter;
+import org.alfresco.util.Pair;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.dao.ConcurrencyFailureException;
+import org.springframework.dao.DataIntegrityViolationException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -30,21 +46,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.zip.CRC32;
-
-import org.alfresco.error.AlfrescoRuntimeException;
-import org.alfresco.repo.content.MimetypeMap;
-import org.alfresco.repo.domain.contentdata.ContentDataDAO;
-import org.alfresco.repo.domain.propval.PropertyIdSearchRow;
-import org.alfresco.repo.domain.propval.PropertyValueDAO;
-import org.alfresco.service.cmr.audit.AuditService.AuditQueryCallback;
-import org.alfresco.service.cmr.repository.ContentData;
-import org.alfresco.service.cmr.repository.ContentService;
-import org.alfresco.service.cmr.repository.ContentWriter;
-import org.alfresco.util.Pair;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.dao.ConcurrencyFailureException;
-import org.springframework.dao.DataIntegrityViolationException;
 
 /**
  * Abstract helper DAO for <b>alf_audit_XXX</b> tables.
@@ -359,7 +360,7 @@ public abstract class AbstractAuditDAOImpl implements AuditDAO
             this.callback = callback;
             this.more = true;
         }
-        
+    
         public boolean valuesRequired()
         {
             return callback.valuesRequired();
@@ -439,10 +440,16 @@ public abstract class AbstractAuditDAOImpl implements AuditDAO
                     auditValues);
         }
     }
+    
+    @Override
+    public int findAuditEntries(AuditService.AuditQueryCallback callback, org.alfresco.service.cmr.audit.AuditQueryParameters parameters, int maxResults) {
+        return this.findAuditEntries(callback, parameters, 0, maxResults);
+    }
 
-    public void findAuditEntries(
+    public int findAuditEntries(
             AuditQueryCallback callback,
             org.alfresco.service.cmr.audit.AuditQueryParameters parameters,
+            int offset,
             int maxResults)
     {
         String searchKey = null;
@@ -456,7 +463,7 @@ public abstract class AbstractAuditDAOImpl implements AuditDAO
         }
         
         AuditQueryRowHandler rowHandler = new AuditQueryRowHandler(callback);
-        findAuditEntries(
+        return findAuditEntries(
                 rowHandler,
                 parameters.isForward(),
                 parameters.getApplicationName(),
@@ -465,17 +472,19 @@ public abstract class AbstractAuditDAOImpl implements AuditDAO
                 parameters.getToId(),
                 parameters.getFromTime(),
                 parameters.getToTime(),
+                offset,
                 maxResults,
                 //TODO
                 parameters.getSearchKeyValues());
     }
     
-    protected abstract void findAuditEntries(
+    protected abstract int findAuditEntries(
             AuditQueryRowHandler rowHandler,
             boolean forward,
             String applicationName, String user,
             Long fromId, Long toId,
             Long fromTime, Long toTime,
+            int offset,
             int maxResults,
             List<Pair<String, Serializable>> kvs);
 }

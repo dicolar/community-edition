@@ -22,8 +22,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import org.alfresco.service.PublicService;
-
 /**
  * The public API by which applications can query the audit logs and enable or disable auditing.
  * 
@@ -165,6 +163,7 @@ public interface AuditService
      */
     public static interface AuditQueryCallback
     {
+        
         /**
          * Determines whether this callback requires the values argument to be populated when {@link #handleAuditEntry}
          * is called.
@@ -211,5 +210,7 @@ public interface AuditService
      * 
      * @since 3.3
      */
-    void auditQuery(AuditQueryCallback callback, AuditQueryParameters parameters, int maxResults);
+    int auditQuery(AuditQueryCallback callback, AuditQueryParameters parameters, int offset, int maxResults);
+    
+    int auditQuery(AuditQueryCallback callback, AuditQueryParameters parameters, int maxResults);
 }

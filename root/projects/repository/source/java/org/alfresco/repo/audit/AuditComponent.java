@@ -229,5 +229,7 @@ public interface AuditComponent
      * 
      * @since 3.2
      */
-    void auditQuery(AuditQueryCallback callback, AuditQueryParameters parameters, int maxResults);
+    int auditQuery(AuditQueryCallback callback, AuditQueryParameters parameters, int offset, int maxResults);
+    
+    int auditQuery(AuditQueryCallback callback, AuditQueryParameters parameters, int maxResults);
 }
