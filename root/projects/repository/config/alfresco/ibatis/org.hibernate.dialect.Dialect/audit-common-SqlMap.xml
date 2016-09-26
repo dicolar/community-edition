@@ -243,6 +243,20 @@
         <include refid="select_AuditEntriesWhereSnippet"/>
         <include refid="select_AuditEntriesOrderBySnippet"/>
     </select>
+    
+    <!-- Get audit count -->
+    <select id="select_AuditEntriesCount" parameterType="AuditQueryParameters" resultType="int">
+        select
+        count(entry.id) as cnt
+        from alf_audit_app app
+        join alf_audit_entry entry on (entry.audit_app_id = app.id)
+    
+        <if test="keyOrValueSearch == true">
+            join alf_prop_link sp_pl on (sp_pl.root_prop_id = entry.audit_values_id)
+        </if>
+        
+        <include refid="select_AuditEntriesWhereSnippet"/>
+    </select>
 
     <!-- Get audit entries -->
     <select id="select_AuditEntriesWithoutValues" parameterType="AuditQueryParameters" resultMap="result_AuditQueryNoValues">
