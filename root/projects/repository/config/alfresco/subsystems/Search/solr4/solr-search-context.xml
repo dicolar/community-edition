@@ -228,8 +228,30 @@
         </property>
     </bean>
  
+    <!-- TODO -->
+    <bean id="search.solrNotifyIndexer" class="org.alfresco.repo.search.impl.solr.SolrNotifyIndexer">
+        <property name="serviceRegistry">
+            <ref bean="ServiceRegistry" />
+        </property>
+        <property name="solrQueryHTTPCLient">
+            <ref bean="search.solrQueryHTTPCLient" />
+        </property>
+    </bean>
+    
+    <bean id="SolrNotifyIndexer" class="org.alfresco.repo.search.impl.solr.SolrNotifyIndexer">
+        <property name="serviceRegistry">
+            <ref bean="ServiceRegistry" />
+        </property>
+        <property name="solrQueryHTTPCLient">
+            <ref bean="search.solrQueryHTTPCLient" />
+        </property>
+    </bean>
+    
     <bean id="search.solrIndexerAndSearcherFactory"
         class="org.alfresco.repo.search.impl.solr.SolrIndexerAndSearcherFactory">
+        <property name="solrNotifyIndexer">
+            <ref bean="search.solrNotifyIndexer" />
+        </property>
         <property name="nodeService">
             <ref bean="mlAwareNodeService" />
         </property>

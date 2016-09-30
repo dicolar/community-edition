@@ -4850,7 +4850,7 @@ public abstract class AbstractNodeDAOImpl implements NodeDAO, BatchingDAO
     protected abstract int deleteNodeById(Long nodeId);
     protected abstract int deleteNodesByCommitTime(long maxTxnCommitTimeMs);
     protected abstract NodeEntity selectNodeById(Long id);
-    protected abstract NodeEntity selectNodeByNodeRef(NodeRef nodeRef);
+    public abstract NodeEntity selectNodeByNodeRef(NodeRef nodeRef);
     protected abstract List<Node> selectNodesByUuids(Long storeId, SortedSet<String> uuids);
     protected abstract List<Node> selectNodesByIds(SortedSet<Long> ids);
     protected abstract Map<NodeVersionKey, Map<NodePropertyKey, NodePropertyValue>> selectNodeProperties(Set<Long> nodeIds);

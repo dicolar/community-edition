@@ -92,7 +92,7 @@ public class SubsystemProxyFactory extends ProxyFactoryBean implements Applicati
 
     /**
      * Sets the source application context factory by name.
-     * 
+     *
      * @param sourceApplicationContextFactoryName
      *            the name of the sourceApplicationContextFactory to set
      */
@@ -103,7 +103,7 @@ public class SubsystemProxyFactory extends ProxyFactoryBean implements Applicati
 
     /**
      * Sets the source application context factory by reference
-     * 
+     *
      * @param sourceApplicationContextFactory
      *            the sourceApplicationContextFactory to set
      */
@@ -139,7 +139,7 @@ public class SubsystemProxyFactory extends ProxyFactoryBean implements Applicati
     /**
      * Sets an optional bean name to target all calls to in the source application context. If not set, an appropriate
      * bean is looked up based on method class.
-     * 
+     *
      * @param sourceBeanName
      *            the sourceBeanName to set
      */
@@ -151,7 +151,7 @@ public class SubsystemProxyFactory extends ProxyFactoryBean implements Applicati
     /**
      * Sets an optional default bean to be used if the target bean is not found. Generally used when a subsystem does not
      * exist.
-     * 
+     *
      * @param sourceBeanName
      *            the sourceBeanName to set
      */
@@ -190,7 +190,7 @@ public class SubsystemProxyFactory extends ProxyFactoryBean implements Applicati
                 }
                 if (this.sourceBean == null)
                 {
-                    Method method = mi.getMethod();                
+                    Method method = mi.getMethod();
                     Class<?> type = method.getDeclaringClass();
                     Object bean = this.typedBeans.get(type);
                     if (bean == null)

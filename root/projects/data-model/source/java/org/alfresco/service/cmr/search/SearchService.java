@@ -74,6 +74,8 @@ public interface SearchService
     @Auditable(parameters = {"store", "language", "query"})
     public ResultSet query(StoreRef store, String language, String query);
 
+    
+    
     /**
      * Search against a store.
      * 

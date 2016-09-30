@@ -403,7 +403,7 @@ public class NodeDAOImpl extends AbstractNodeDAOImpl
     }
 
     @Override
-    protected NodeEntity selectNodeByNodeRef(NodeRef nodeRef)
+    public NodeEntity selectNodeByNodeRef(NodeRef nodeRef)
     {
         StoreEntity store = new StoreEntity();
         StoreRef storeRef = nodeRef.getStoreRef();
